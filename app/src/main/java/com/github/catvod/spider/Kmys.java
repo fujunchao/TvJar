@@ -443,15 +443,15 @@ public class Kmys extends Spider {
             hashMap.put("Content-Type", "application/json; charser=utf-8");
             JSONObject jsonObject = new JSONObject();
             try {
-                int random = (int)(Math.random()*1.0E8d);
-                int time = (int)(System.currentTimeMillis()/1000);
-                String signBefore = "p=com.feigua.yingshi&t=" + time + "&r=" + random + "&s=36eff39894f62d333fd3f488cffbf364&pl=1";
-                String signAfter = "s=" + MD5(signBefore) + "&t=" + time + "&r=" + random + "&i=1&p=1&origin=" + signBefore.replace("&", "|");
-                jsonObject.put("s",Misc.MD5(signBefore,Misc.CharsetUTF8));
-                jsonObject.put("t",time);
-                jsonObject.put("r",random);
-                jsonObject.put("i",4);
-                jsonObject.put("p",1);
+                int randNum = (int) (Math.random() * 100000000);
+                int t = (int) (System.currentTimeMillis() / 1000);
+                String signBefore = "p=com.feigua.yingshi&t=" + t + "&r=" + randNum + "&s=36eff39894f62d333fd3f488cffbf364&pl=1";
+                String signAfter = "s=" + Misc.MD5(signBefore, Misc.CharsetUTF8) + "&t=" + t + "&r=" + randNum + "&i=1&p=1&origin=" + signBefore.replace("&", "|");
+                jsonObject.put("s", Misc.MD5(signBefore, Misc.CharsetUTF8));
+                jsonObject.put("t", time);
+                jsonObject.put("r", randNum);
+                jsonObject.put("i", 4);
+                jsonObject.put("p", 1);
                 OkHttpUtil.postJson(OkHttpUtil.defaultClient(), url, jsonObject.toString(), hashMap, new OKCallBack.OKCallBackString() {
                     @Override
                     public void onFailure(Call call, Exception e) {
