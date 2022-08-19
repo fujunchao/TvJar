@@ -654,7 +654,7 @@ public class PushAgent extends Spider {
                     jSONObject.put("parse", "0");
                     jSONObject.put("playUrl", "");
                     jSONObject.put("url", url);
-                    jSONObject.put("header", "");
+                    jSONObject.put("header", JSONObject4.toString());
                     return jSONObject.toString();
             }
         } catch (Exception e) {
