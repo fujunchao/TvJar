@@ -637,25 +637,23 @@ public class PushAgent extends Spider {
                     refreshTk();
                     String[] split = id.split("\\+");
                     
-                    String DownLoadurl = downLoadurl(split[0], split[1], split[2], split[3]);
-//HashMap hashMap = new HashMap();
-                   // OkHttpUtil.string(DownLoadurl, Headers(), hashMap);
-                   // String url = location(hashMap);
-                    String url = DownLoadurl;                       
-                                 
+                    String url = getOriginalvideoUrl(split[0], split[1], split[2], split[3]);
+                    Map<String, List<String>> headerMap = new HashMap<>();
+                    OkHttpUtil.stringNoRedirect(url, getHeaders(), headerMap);
+                    String videoUrl = OkHttpUtil.getRedirectlocation(headerMap);                                                             
 //                    String str3 = split[0];
 //                    String str5 = split[2];
 //                    String url = Proxy.localProxyUrl() + "?do=push&type=m3u8&share_id=" + str3 + "&file_id=" + str5;
-                    JSONObject jSONObject = new JSONObject();
-                    JSONObject4.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.54 Safari/537.36");
-                    JSONObject4.put("Referer", "https://www.aliyundrive.com/");
+                    JSONObject result = new JSONObject();
+ //                   JSONObject4.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.54 Safari/537.36");
+ //                   JSONObject4.put("Referer", "https://www.aliyundrive.com/");
                     
-                   JSONObject jSONObject = new JSONObject();
+ //                  JSONObject jSONObject = new JSONObject();
                     jSONObject.put("parse", "0");
                     jSONObject.put("playUrl", "");
-                    jSONObject.put("url", url);
-                    jSONObject.put("header", JSONObject4.toString());
-                    return jSONObject.toString();
+                    jSONObject.put("url", videoUrl);
+                    jSONObject.put("header", new JSONObject(getHeaders()).toString());
+                    return result.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();
