@@ -638,10 +638,10 @@ public class PushAgent extends Spider {
                     String[] split = id.split("\\+");
                     
                     String DownLoadurl = downLoadurl(split[0], split[1], split[2], split[3]);
-                    HashMap hashMap = new HashMap();
-                    OkHttpUtil.string(DownLoadurl, Headers(), hashMap);
-                    String url = location(hashMap);
-                                                        
+//HashMap hashMap = new HashMap();
+                   // OkHttpUtil.string(DownLoadurl, Headers(), hashMap);
+                   // String url = location(hashMap);
+                    String url = DownLoadurl;                       
                                  
 //                    String str3 = split[0];
 //                    String str5 = split[2];
