@@ -446,7 +446,7 @@ public class Kmys extends Spider {
                 int random = (int)(Math.random()*1.0E8d);
                 int time = (int)(System.currentTimeMillis()/1000);
                 String signBefore = "p=com.feigua.yingshi&t=" + time + "&r=" + random + "&s=36eff39894f62d333fd3f488cffbf364&pl=1";
-                String signAfter = "s=" + MD5(signBefore) + "&t=" + t + "&r=" + randNum + "&i=1&p=1&origin=" + signBefore.replace("&", "|");
+                String signAfter = "s=" + MD5(signBefore) + "&t=" + time + "&r=" + random + "&i=1&p=1&origin=" + signBefore.replace("&", "|");
                 jsonObject.put("s",Misc.MD5(signBefore,Misc.CharsetUTF8));
                 jsonObject.put("t",time);
                 jsonObject.put("r",random);
