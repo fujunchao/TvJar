@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
 import java.security.KeyFactory;
+import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class Kmys extends Spider {
     private String apiDomain = "";
     private String staticDomain = "";
 
-    private String appId = "5"; // 飞瓜 1 酷猫 5   
+    private String appId = "5"; // 飞瓜 1 酷猫 5
     final String versionNumber = "360";
     final String version = "3.6.0";
     final String platformId = "7";
@@ -52,16 +53,6 @@ public class Kmys extends Spider {
     @Override
     public void init(Context context) {
         super.init(context);
-        SharedPreferences sharedPreferences = context.getSharedPreferences("sp_Kmys", Context.MODE_PRIVATE);
-        try {
-            device = sharedPreferences.getString("device", null);
-        } catch (Throwable th) {
-        } finally {
-            if (device == null) {
-                device = Misc.MD5(UUID.randomUUID().toString(), Misc.CharsetUTF8).toLowerCase();
-                sharedPreferences.edit().putString("device", device).commit();
-            }
-        }
     }
 
     private HashMap<String, String> getHeaders(String url) {
@@ -428,7 +419,7 @@ public class Kmys extends Spider {
         }
         return src;
     }
-    
+
     public void getkey() {
         if (signPlayerStr.isEmpty()) {
             String url = "https://video-api.kumaoys.cn/api/v2/b/" + ((int) (Math.random() * 1000000));
@@ -475,17 +466,26 @@ public class Kmys extends Spider {
             }
         }
     }
-    
-    public static String decryptByPublicKey(String data, String publicKey) 
-        throws Exception {
+
+    public static String decryptByPublicKey(String data, String publicKey)
+            throws Exception {
         Cipher cipher = Cipher.getInstance(ECB_PKCS1_PADDING);
         cipher.init(Cipher.DECRYPT_MODE, getPublicKey(publicKey));
         byte[] result = cipher.doFinal(Base64.decode(data, Base64.DEFAULT));
         return new String(result);
     }
-    
+
+    public static final String KEY_ALGORITHM = "RSA";
+    public static PublicKey getPublicKey(String str) {
+        try {
+            return KeyFactory.getInstance(KEY_ALGORITHM).generatePublic(new X509EncodedKeySpec(Base64.decode(str, Base64.DEFAULT)));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public static final String ECB_PKCS1_PADDING = "RSA/ECB/PKCS1Padding";
-    
+
 
     String rsa(String in) {
         try {
