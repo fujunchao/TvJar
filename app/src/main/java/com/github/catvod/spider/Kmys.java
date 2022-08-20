@@ -483,6 +483,9 @@ public class Kmys extends Spider {
         byte[] result = cipher.doFinal(Base64.decode(data, Base64.DEFAULT));
         return new String(result);
     }
+    
+    public static final String ECB_PKCS1_PADDING = "RSA/ECB/PKCS1Padding";
+    
 
     String rsa(String in) {
         try {
