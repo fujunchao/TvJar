@@ -429,23 +429,23 @@ public class Kmys extends Spider {
     public static void getkey(){
         if (signPlayerStr.isEmpty()){
             ////https://video-api.kumaoys.cn/api/v2/b/83708861
-            String url = "https://mtv.stvmts.com/api/v2/b/"+((int) (Math.random() * 100000000));
+            String url = "https://mtv.stvmts.com/api/v2/b/"+((int) (Math.random() * 1000000));
             HashMap hashMap = new HashMap();
             hashMap.put("versionNumber", "360");
             hashMap.put("versionName", "3.6.0");
             hashMap.put("device", "1a7348ae45f8f6de4d798614fc07e7271657392501986");
             //hashMap.put("appId", "5");
             hashMap.put("platformId", "7");
-            hashMap.put("User-Agent", "okhttp/3.14.7");
+            hashMap.put("User-Agent", "Dalvik/2.1.0");
             hashMap.put("Pragma", "Pragma:: no-cache");
             hashMap.put("Cache-Control", "no-cache");
             hashMap.put("Host", "mtv.stvmts.com");
             hashMap.put("Content-Type", "application/json; charser=utf-8");
             JSONObject jsonObject = new JSONObject();
             try {
-                int random = (int)(Math.random()*1.0E8d);
+                int random = (int)(Math.random()*1.0E10d);
                 int time = (int)(System.currentTimeMillis()/1000);
-                String signBefore = "p=com.feigua.yingshi&t=" + time + "&r=" + random + "&s=36eff39894f62d333fd3f488cffbf364&pl=1";
+                String signBefore = "p=com.kumao.yingshi&t=" + time + "&r=" + random + "&s=36eff39894f62d333fd3f488cffbf364&pl=1";
                 jsonObject.put("s",Misc.MD5(signBefore,Misc.CharsetUTF8));
                 jsonObject.put("t",time);
                 jsonObject.put("r",random);
@@ -477,7 +477,6 @@ public class Kmys extends Spider {
                 e.printStackTrace();
             }
         }
-
     }
 
     public static  String decryptByPublicKey(String in) {
