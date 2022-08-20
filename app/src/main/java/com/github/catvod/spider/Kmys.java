@@ -472,9 +472,9 @@ public class Kmys extends Spider {
                         try {
 
                             JSONObject jsonObject = new JSONObject(response).getJSONObject("data");
-                            String a = new String(Base64.decode(jsonObject.getString("a"), 0), Misc.CharsetUTF8));
-                            String k = new String(Base64.decode(jsonObject.getString("k"), 0), Misc.CharsetUTF8));
-                            String z = new String(Base64.decode(jsonObject.getString("z"), 0), Misc.CharsetUTF8));
+                            String a = new String(Base64.decode(jsonObject.getString("a"),  Misc.CharsetUTF8));
+                            String k = new String(Base64.decode(jsonObject.getString("k"),  Misc.CharsetUTF8));
+                            String z = new String(Base64.decode(jsonObject.getString("z"),  Misc.CharsetUTF8));
                             String data = rsa2(k+z+a, Laoliu);
                             signPlayerStr = new JSONObject(data).optString("key");
                         } catch (JSONException e) {
