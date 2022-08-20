@@ -435,7 +435,7 @@ public class Kmys extends Spider {
             hashMap.put("versionName", version);
             hashMap.put("device", device);
             hashMap.put("appId", appId);
-            hashMap.put("platformId", "7"));
+            hashMap.put("platformId", "7");
             hashMap.put("User-Agent", "Dalvik/2.1.0");
             hashMap.put("Cache-Control", "no-cache");
             hashMap.put("Content-Type", "application/json; charset=utf-8");
