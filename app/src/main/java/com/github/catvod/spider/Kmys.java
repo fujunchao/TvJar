@@ -9,6 +9,7 @@ import android.util.Base64;
 import com.github.catvod.crawler.Spider;
 import com.github.catvod.crawler.SpiderDebug;
 import com.github.catvod.utils.Misc;
+import com.github.catvod.utils.RSAUtils;
 import com.github.catvod.utils.okhttp.OKCallBack;
 import com.github.catvod.utils.okhttp.OkHttpUtil;
 
@@ -453,7 +454,7 @@ public class Kmys extends Spider {
                             String a = new String(Base64.decode(jsonObject.getString("a"), Base64.DEFAULT));
                             String k = new String(Base64.decode(jsonObject.getString("k"), Base64.DEFAULT));
                             String z = new String(Base64.decode(jsonObject.getString("z"), Base64.DEFAULT));
-                            String data = decryptByPublicKey(k + z + a, "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt/dLGQj1Iimj0LIUMUXgBGUjsfrm6o1/pZjXXVLL3py2vLktNtSoJU+69v1tUXZqiU9BqMHApVmMOtOnkL5J+ENdLIX3bXnNtfNJpYX4Iz8OBMqKdDch80gN8rLkTPReFkBGsMAndKpc0iMdgd6nts/gQ3wUBNJKpmOG35UateQIDAQAB");
+                            String data = RSAUtils.decryptByPublicKey(k + z + a, "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt/dLGQj1Iimj0LIUMUXgBGUjsfrm6o1/pZjXXVLL3py2vLktNtSoJU+69v1tUXZqiU9BqMHApVmMOtOnkL5J+ENdLIX3bXnNtfNJpYX4Iz8OBMqKdDch80gN8rLkTPReFkBGsMAndKpc0iMdgd6nts/gQ3wUBNJKpmOG35UateQIDAQAB");
                             signPlayerStr = new JSONObject(data).optString("key");
                         } catch (JSONException e) {
                         } catch (Exception e) {
@@ -466,26 +467,6 @@ public class Kmys extends Spider {
             }
         }
     }
-
-    public static String decryptByPublicKey(String data, String publicKey)
-            throws Exception {
-        Cipher cipher = Cipher.getInstance(ECB_PKCS1_PADDING);
-        cipher.init(Cipher.DECRYPT_MODE, getPublicKey(publicKey));
-        byte[] result = cipher.doFinal(Base64.decode(data, Base64.DEFAULT));
-        return new String(result);
-    }
-
-    public static final String KEY_ALGORITHM = "RSA";
-    public static PublicKey getPublicKey(String str) {
-        try {
-            return KeyFactory.getInstance(KEY_ALGORITHM).generatePublic(new X509EncodedKeySpec(Base64.decode(str, Base64.DEFAULT)));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public static final String ECB_PKCS1_PADDING = "RSA/ECB/PKCS1Padding";
-
 
     String rsa(String in) {
         try {
