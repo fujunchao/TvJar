@@ -431,12 +431,12 @@ public class Kmys extends Spider {
         if (signPlayerStr.isEmpty()) {
             String url = "https://video-api.kumaoys.cn/api/v2/b/" + ((int) (Math.random() * 1000000));
             HashMap hashMap = new HashMap();
-            hashMap.put("versionNumber", versionNumber);
-            hashMap.put("versionName", version);
+            hashMap.put("versionNumber", "360");
+            hashMap.put("versionName", "3.6.0");
             hashMap.put("device", device);
             hashMap.put("appId", appId);
-            hashMap.put("platformId", platformId);
-            hashMap.put("User-Agent", "Dalvik/2.1.0");
+            hashMap.put("platformId", "7");
+            hashMap.put("User-Agent", "okhttp/3.14.7");
             hashMap.put("Cache-Control", "no-cache");
             hashMap.put("Content-Type", "application/json; charset=utf-8");
             JSONObject jsonObject = new JSONObject();
