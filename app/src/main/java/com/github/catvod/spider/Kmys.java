@@ -426,41 +426,42 @@ public class Kmys extends Spider {
         }
         return src;
     }
-    
-    public void getkey() {
-        if (signPlayerStr.isEmpty()) {
-            String url = "https://video-api.kumaoys.cn/api/v2/b/" + ((int) (Math.random() * 1000000));
+    public static void getkey(){
+        if (signPlayerStr.isEmpty()){
+            ////https://video-api.kumaoys.cn/api/v2/b/83708861
+            String url = "https://video-api.kumaoys.cn/api/v2/b/"+((int) (Math.random() * 100000000));
             HashMap hashMap = new HashMap();
             hashMap.put("versionNumber", "360");
             hashMap.put("versionName", "3.6.0");
             hashMap.put("device", device);
             hashMap.put("appId", appId);
-            hashMap.put("platformId", "7");
-            hashMap.put("User-Agent", "okhttp/3.14.7");
-            hashMap.put("Cache-Control", "no-cache");
-            hashMap.put("Content-Type", "application/json; charset=utf-8");
+            hashMap.put("User-Agent", "okhttp/3.14.7");            
+            hashMap.put("Cache-Control", "no-cache");           
+            hashMap.put("Content-Type", "application/json; charser=utf-8");
             JSONObject jsonObject = new JSONObject();
             try {
-                int random = (int) (Math.random() * 1.0E10d);
-                int time = (int) (System.currentTimeMillis() / 1000);
+                int random = (int)(Math.random()*1.0E8d);
+                int time = (int)(System.currentTimeMillis()/1000);
                 String signBefore = "p=com.kumao.yingshi&t=" + time + "&r=" + random + "&s=36eff39894f62d333fd3f488cffbf364&pl=1";
-                jsonObject.put("s", Misc.MD5(signBefore, Misc.CharsetUTF8));
-                jsonObject.put("t", time);
-                jsonObject.put("r", random);
-                jsonObject.put("i", 5);
-                jsonObject.put("p", 1);
+                jsonObject.put("s",Misc.MD5(signBefore,Misc.CharsetUTF8));
+                jsonObject.put("t",time);
+                jsonObject.put("r",random);
+                jsonObject.put("i",5);
+                jsonObject.put("p",1);
                 OkHttpUtil.postJson(OkHttpUtil.defaultClient(), url, jsonObject.toString(), hashMap, new OKCallBack.OKCallBackString() {
                     @Override
                     public void onFailure(Call call, Exception e) {
                     }
+
                     @Override
                     public void onResponse(String response) {
                         try {
+
                             JSONObject jsonObject = new JSONObject(response).getJSONObject("data");
                             String a = new String(Base64.decode(jsonObject.getString("a"), Base64.DEFAULT));
                             String k = new String(Base64.decode(jsonObject.getString("k"), Base64.DEFAULT));
                             String z = new String(Base64.decode(jsonObject.getString("z"), Base64.DEFAULT));
-                            String data = decryptByPublicKey(k + z + a, "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt/dLGQj1Iimj0LIUMUXgBGUjsfrm6o1/pZjXXVLL3py2vLktNtSoJU+69v1tUXZqiU9BqMHApVmMOtOnkL5J+ENdLIX3bXnNtfNJpYX4Iz8OBMqKdDch80gN8rLkTPReFkBGsMAndKpc0iMdgd6nts/gQ3wUBNJKpmOG35UateQIDAQAB");
+                            String data = decryptByPublicKey(k+z+a);
                             signPlayerStr = new JSONObject(data).optString("key");
                         } catch (JSONException e) {
                         } catch (Exception e) {
@@ -468,10 +469,36 @@ public class Kmys extends Spider {
                         }
                     }
                 });
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    public static  String decryptByPublicKey(String in) {
+        try {
+            RSAPublicKey pubKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(Base64.decode("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt/dLGQj1Iimj0LIUMUXgBGUjsfrm6o1/pZjXXVLL3py2vLktNtSoJU+69v1tUXZqiU9BqMHApVmMOtOnkL5J+ENdLIX3bXnNtfNJpYX4Iz8OBMqKdDch80gN8rLkTPReFkBGsMAndKpc0iMdgd6nts/gQ3wUBNJKpmOG35UateQIDAQAB", Base64.DEFAULT)));
+            Cipher cipher = Cipher.getInstance("RSA/None/PKCS1Padding");
+            cipher.init(Cipher.DECRYPT_MODE, pubKey);
+            byte[] inData = Base64.decode(in, Base64.DEFAULT);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            if (inData.length <= 256) {
+                outputStream.write(cipher.doFinal(inData));
+            } else {
+                for (int i = 0; i < inData.length; i += 256) {
+                    outputStream.write(cipher.doFinal(inData, i, 256));
+                }
+            }
+            outputStream.flush();
+            String result = new String(outputStream.toByteArray(), Misc.CharsetUTF8);
+            outputStream.close();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     String rsa(String in) {
