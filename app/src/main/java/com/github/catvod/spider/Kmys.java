@@ -43,7 +43,7 @@ public class Kmys extends Spider {
     private String apiDomain = "";
     private String staticDomain = "";
 
-    private String appId = "5"; // 飞瓜 1 酷猫 5 暗影 4
+    private String appId = "5"; // 飞瓜 1 酷猫 5
 
     private String device = "1a7348ae45f8f6de4d798614fc07e7271657392501986";
 
@@ -435,7 +435,7 @@ public class Kmys extends Spider {
             hashMap.put("versionName", "3.6.0");
             hashMap.put("device", device);
             hashMap.put("appId", appId);
-            hashMap.put("platformId", "7");
+            hashMap.put("platformId", "7"));
             hashMap.put("User-Agent", "okhttp/3.14.7");
             hashMap.put("Cache-Control", "no-cache");
             hashMap.put("Content-Type", "application/json; charset=utf-8");
@@ -460,7 +460,7 @@ public class Kmys extends Spider {
                             String a = new String(Base64.decode(jsonObject.getString("a"), Base64.DEFAULT));
                             String k = new String(Base64.decode(jsonObject.getString("k"), Base64.DEFAULT));
                             String z = new String(Base64.decode(jsonObject.getString("z"), Base64.DEFAULT));
-                            String data = RSA.decryptByPublicKey(k + z + a, "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt/dLGQj1Iimj0LIUMUXgBGUjsfrm6o1/pZjXXVLL3py2vLktNtSoJU+69v1tUXZqiU9BqMHApVmMOtOnkL5J+ENdLIX3bXnNtfNJpYX4Iz8OBMqKdDch80gN8rLkTPReFkBGsMAndKpc0iMdgd6nts/gQ3wUBNJKpmOG35UateQIDAQAB");
+                            String data = decryptByPublicKey(k + z + a, "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt/dLGQj1Iimj0LIUMUXgBGUjsfrm6o1/pZjXXVLL3py2vLktNtSoJU+69v1tUXZqiU9BqMHApVmMOtOnkL5J+ENdLIX3bXnNtfNJpYX4Iz8OBMqKdDch80gN8rLkTPReFkBGsMAndKpc0iMdgd6nts/gQ3wUBNJKpmOG35UateQIDAQAB");
                             signPlayerStr = new JSONObject(data).optString("key");
                         } catch (JSONException e) {
                         } catch (Exception e) {
@@ -612,4 +612,6 @@ public class Kmys extends Spider {
         }
         return null;
     }
+
+
 }
